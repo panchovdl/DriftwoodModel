@@ -16,12 +16,15 @@ DriftwoodModel >> init [
 
 	self createGridLines: 20 columns: 50 neighbourhood: 8 closed: true.
 	
-	
-	self createN: numberOfCollectors randomlyLocatedAloneEntities: DriftwoodCollector .
-	
-	self displayPov: #pov of: DriftwoodCollector.
-	
 	self setHighTide.
+	
+	self
+		createN: numberOfCollectors
+		randomlyLocatedEntities: DriftwoodCollector
+		constrainedBy: [ :cell | cell hasNoOccupants and: [ cell isAccessible ] ].
+	
+	self 	displayPov: #pov of: DriftwoodCollector;
+			displayPov: #pov of: DriftwoodDriftwood.
 ]
 
 { #category : #initialization }
@@ -33,6 +36,7 @@ DriftwoodModel >> initialize [
 	
 	theAres := OrderedCollection new.
 	theCollectors := OrderedCollection new.
+	theDriftwoods := OrderedCollection new.
 	
 	tideCounter := 0.
 ]
@@ -42,12 +46,12 @@ DriftwoodModel >> setHighTide [
 
 	| index |
 	
-	theAres do: [ :each | each state: #inaccessible ].
+	theAres do: [ :each | each makeInaccessible ].
 
 	1 to: 50 do: [ :i |
 		1 to: 15 do: [ :j |
 			index := ((j-1) * 50) + i.
-			(theAres at: index) state: #accessible ] ].
+			(theAres at: index) makeAccessible ] ].
 	
 
 ]
@@ -57,12 +61,12 @@ DriftwoodModel >> setLowTide [
 
 	| index |
 	
-	theAres do: [ :each | each state: #inaccessible ].
+	theAres do: [ :each | each makeInaccessible ].
 
 	1 to: 50 do: [ :i |
 		1 to: 19 do: [ :j |
 			index := ((j-1) * 50) + i.
-			(theAres at: index) state: #accessible ] ]
+			(theAres at: index) makeAccessible ] ]
 ]
 
 { #category : #control }
@@ -74,7 +78,9 @@ DriftwoodModel >> step: t [
 	
 	tideCounter = 10 ifTrue: [ 
 		self setHighTide.
-		tideCounter := 0 ]
+		tideCounter := 0 ].
+	
+	self theCollectors do: #step
 ]
 
 { #category : #accessing }
@@ -89,4 +95,11 @@ DriftwoodModel >> theCollectors [
 
 	<getterFor: #DriftwoodCollector>
 	^ theCollectors
+]
+
+{ #category : #accessing }
+DriftwoodModel >> theDriftwoods [
+
+	<getterFor: #DriftwoodDriftwood>
+	^ theDriftwoods
 ]
