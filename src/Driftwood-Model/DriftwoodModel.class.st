@@ -6,7 +6,8 @@ Class {
 		'theAres',
 		'theCollectors',
 		'tideCounter',
-		'numberOfCollectors'
+		'numberOfCollectors',
+		'numberOfDriftwoods'
 	],
 	#category : #'Driftwood-Model'
 }
@@ -14,31 +15,44 @@ Class {
 { #category : #init }
 DriftwoodModel >> init [
 
-	self createGridLines: 20 columns: 50 neighbourhood: 8 closed: true.
-	
+	self
+		createGridLines: 20
+		columns: 50
+		neighbourhood: 8
+		closed: true.
+
 	self setHighTide.
-	
+
 	self
 		createN: numberOfCollectors
 		randomlyLocatedEntities: DriftwoodCollector
-		constrainedBy: [ :cell | cell hasNoOccupants and: [ cell isAccessible ] ].
+		constrainedBy: [ :cell | 
+		cell hasNoOccupants and: [ cell isAccessible ] ].
 	
-	self 	displayPov: #pov of: DriftwoodCollector;
-			displayPov: #pov of: DriftwoodDriftwood.
+	self
+	createN: numberOfDriftwoods
+		randomlyLocatedEntities: DriftwoodDriftwood 
+		constrainedBy: [ :cell | 
+		cell hasNoOccupants and: [ cell pov blue] ].
+
+	self
+		displayPov: #pov of: DriftwoodCollector;
+		displayPov: #pov of: DriftwoodDriftwood
 ]
 
 { #category : #initialization }
 DriftwoodModel >> initialize [
 
 	super initialize.
-	
+
 	numberOfCollectors := 10.
-	
+	numberOfDriftwoods := 50.
+
 	theAres := OrderedCollection new.
 	theCollectors := OrderedCollection new.
 	theDriftwoods := OrderedCollection new.
-	
-	tideCounter := 0.
+
+	tideCounter := 0
 ]
 
 { #category : #initialization }

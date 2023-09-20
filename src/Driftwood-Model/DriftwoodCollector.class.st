@@ -25,6 +25,22 @@ DriftwoodCollector >> carryingCapacity: anObject [
 	carryingCapacity := anObject
 ]
 
+{ #category : #stepping }
+DriftwoodCollector >> collectWood [
+
+	| driftwood aPiece |
+	driftwood := self patch occupantsOfClass: DriftwoodDriftwood.
+
+
+			(carryingCapacity - currentCharge size min: driftwood size) 
+				timesRepeat: [ 
+					aPiece := driftwood first.
+					currentCharge add: aPiece.
+					aPiece leave.
+					driftwood remove: aPiece ] 
+
+]
+
 { #category : #accessing }
 DriftwoodCollector >> currentCharge [
 
@@ -40,7 +56,7 @@ DriftwoodCollector >> currentCharge: anObject [
 { #category : #accessing }
 DriftwoodCollector >> distancePerception [
 
-	^ distancePerception
+	^ distancePerception ifNil: [ distancePerception := 5 ]
 ]
 
 { #category : #accessing }
@@ -59,7 +75,24 @@ DriftwoodCollector >> initialize [
 ]
 
 { #category : #stepping }
-DriftwoodCollector >> lookForWood [ 
+DriftwoodCollector >> lookForWood [
+
+	| driftwood |
+	driftwood := self patch occupantsOfClass: DriftwoodDriftwood.
+
+	driftwood
+		ifNotEmpty: [ self collectWood ]
+		ifEmpty: [ self lookWoodAround ]
+]
+
+{ #category : #'as yet unclassified' }
+DriftwoodCollector >> lookWoodAround [
+
+	| found n woods destination |
+	found := false.
+	n := 0.
+	[ n < distancePerception and: [ found not ] ] whileTrue: [ n := n+1. woods := self locatedEntities: #DriftwoodDriftwood withinRadius: n. woods ifNotEmpty: [ found := true. destination := woods first patch ]  ].
+	found ifTrue: [ self randomWalkOnBeach  ] ifFalse: [ self moveTowards: destination ]
 ]
 
 { #category : #pov }
