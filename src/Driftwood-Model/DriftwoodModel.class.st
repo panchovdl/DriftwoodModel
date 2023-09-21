@@ -7,7 +7,8 @@ Class {
 		'theCollectors',
 		'tideCounter',
 		'numberOfCollectors',
-		'numberOfDriftwoods'
+		'numberOfDriftwoods',
+		'thePiles'
 	],
 	#category : #'Driftwood-Model'
 }
@@ -126,9 +127,9 @@ DriftwoodModel >> step: t [
 	
 	tideCounter := tideCounter + 1.
 	
-	tideCounter = 5 ifTrue: [ self setLowTide ].
+	tideCounter = 20 ifTrue: [ self setLowTide ].
 	
-	tideCounter = 10 ifTrue: [ 
+	tideCounter = 40 ifTrue: [ 
 		self setHighTide.
 		tideCounter := 0 ].
 	
@@ -162,4 +163,16 @@ DriftwoodModel >> theDriftwoods [
 
 	<getterFor: #DriftwoodDriftwood>
 	^ theDriftwoods
+]
+
+{ #category : #accessing }
+DriftwoodModel >> thePiles [
+
+	^ thePiles
+]
+
+{ #category : #accessing }
+DriftwoodModel >> thePiles: anObject [
+
+	thePiles := anObject
 ]
