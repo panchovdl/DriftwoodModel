@@ -75,7 +75,7 @@ DriftwoodCollector >> initialize [
 ]
 
 { #category : #stepping }
-DriftwoodCollector >> lookForWoodAndCollect [
+DriftwoodCollector >> lookForWood [
 
 	| driftwood |
 	
@@ -181,5 +181,5 @@ DriftwoodCollector >> step [
 
 	self currentCharge size >= self carryingCapacity
 		ifTrue: [ self goBacktoPile ]
-		ifFalse: [ self lookForWoodAndCollect ]
+		ifFalse: [ self lookForWood ]
 ]
