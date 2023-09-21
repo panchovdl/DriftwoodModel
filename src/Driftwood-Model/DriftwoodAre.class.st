@@ -8,10 +8,28 @@ Class {
 	#category : #'Driftwood-Model'
 }
 
+{ #category : #accessing }
+DriftwoodAre >> hasStone [
+
+	^ hasStone
+]
+
+{ #category : #accessing }
+DriftwoodAre >> hasStone: aBoolean [
+
+	hasStone := aBoolean  
+]
+
 { #category : #testing }
 DriftwoodAre >> isAccessible [
 
 	^ state = #accessible
+]
+
+{ #category : #testing }
+DriftwoodAre >> isInaccessible [
+
+	^ self isAccessible not
 ]
 
 { #category : #testing }
@@ -29,9 +47,17 @@ DriftwoodAre >> makeInaccessible [
 { #category : #pov }
 DriftwoodAre >> pov [
 
-	^ self isAccessible
-		ifTrue: [ Color yellow ]
-		ifFalse: [ Color blue ]
+	(self hasOccupantsOfClass: DriftwoodDriftwood)
+		ifTrue: [ ^ Color fromHexString: 'a46c2c' ].
+
+	 self hasStone
+		ifTrue: [ ^ Color purple ].
+		
+	self isAccessible
+		ifTrue: [ ^ Color yellow ]
+		ifFalse: [ ^ Color blue ]
+		
+
 ]
 
 { #category : #stepping }

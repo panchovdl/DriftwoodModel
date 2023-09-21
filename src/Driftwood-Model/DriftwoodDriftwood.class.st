@@ -8,3 +8,15 @@ Class {
 	],
 	#category : #'Driftwood-Model'
 }
+
+{ #category : #initialization }
+DriftwoodDriftwood >> initialize [
+
+	super initialize.
+]
+
+{ #category : #pov }
+DriftwoodDriftwood >> pov [
+
+	^ Color transparent
+]

@@ -78,27 +78,56 @@ DriftwoodCollector >> initialize [
 DriftwoodCollector >> lookForWood [
 
 	| driftwood |
+	
+	
+	
 	driftwood := self patch occupantsOfClass: DriftwoodDriftwood.
-
-	driftwood
-		ifNotEmpty: [ self collectWood ]
+	driftwood ifNotEmpty: [ self collectWood ]
 		ifEmpty: [ self lookWoodAround ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #stepping }
 DriftwoodCollector >> lookWoodAround [
-
-	| found n woods destination |
+		
+	| woods nearestWood |
+	
+	woods := self locatedEntities: #DriftwoodDriftwood withinRadius: distancePerception.
+	woods := woods select: [ :each | each patch isAccessible ].
+	
+	woods ifEmpty: [ 
+		self randomWalkOnBeach.
+		^ self ].
+	
+	nearestWood := woods anyOne.
+	
+	woods do: [ :each |
+		(self patch distanceTo: each patch) < (self patch distanceTo: nearestWood patch)
+			ifTrue: [ nearestWood := each ] ].
+		
+	self moveTowards: nearestWood patch.
+	
+	"| found n woods destination |
+	
 	found := false.
-	n := 0.
-	[ n < distancePerception and: [ found not ] ] whileTrue: [ n := n+1. woods := self locatedEntities: #DriftwoodDriftwood withinRadius: n. woods ifNotEmpty: [ found := true. destination := woods first patch ]  ].
-	found ifTrue: [ self randomWalkOnBeach  ] ifFalse: [ self moveTowards: destination ]
+	n := 0. 
+	
+	[ n < distancePerception and: [ found not ] ] whileTrue: [ 
+		n := n + 1.
+		woods := self locatedEntities: #DriftwoodDriftwood withinRadius: n.
+		
+		woods ifNotEmpty: [ 
+			found := true.
+			destination := woods first patch ] ].
+	
+	found
+		ifTrue: [ self moveTowards: destination ]
+		ifFalse: [ self randomWalkOnBeach ]"
 ]
 
 { #category : #pov }
 DriftwoodCollector >> pov [ 
 
-	^ Color green
+	^ Color fromHexString: '388e3c'
 ]
 
 { #category : #accessing }
@@ -127,6 +156,12 @@ DriftwoodCollector >> randomWalkOnBeach [
 		ifFalse: [ 
 			self randomWalkConstrainedBy: [ :cell | 
 				cell hasNoOccupants and: [ cell isAccessible ] ] ]
+]
+
+{ #category : #accessing }
+DriftwoodCollector >> shapeOfPOV [ 
+
+	^ #arrow
 ]
 
 { #category : #accessing }
