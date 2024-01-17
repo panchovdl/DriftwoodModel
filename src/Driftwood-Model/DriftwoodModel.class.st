@@ -148,33 +148,27 @@ DriftwoodModel >> teleportCollectorsAwayFromWater [
 { #category : #accessing }
 DriftwoodModel >> theAres [
 
-	<getterForEntityClass: #DriftwoodAre>
+	<getterFor: #DriftwoodAre>
 	^ theAres
 ]
 
 { #category : #accessing }
 DriftwoodModel >> theCollectors [
 
-	<getterForEntityClass: #DriftwoodCollector>
+	<getterFor: #DriftwoodCollector>
 	^ theCollectors
 ]
 
 { #category : #accessing }
 DriftwoodModel >> theDriftwoods [
 
-	<getterForEntityClass: #DriftwoodDriftwood>
+	<getterFor: #DriftwoodDriftwood>
 	^ theDriftwoods
 ]
 
 { #category : #accessing }
 DriftwoodModel >> thePiles [
 
-	<getterForEntityClass: #DriftwoodPile>
+	<getterFor: #DriftwoodPile>
 	^ thePiles
-]
-
-{ #category : #accessing }
-DriftwoodModel >> thePiles: anObject [
-
-	thePiles := anObject
 ]
