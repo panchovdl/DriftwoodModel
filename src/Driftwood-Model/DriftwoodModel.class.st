@@ -77,6 +77,7 @@ DriftwoodModel >> initialize [
 	theAres := OrderedCollection new.
 	theCollectors := OrderedCollection new.
 	theDriftwoods := OrderedCollection new.
+	thePiles := OrderedCollection new.
 	
 
 	tideCounter := 0
@@ -147,27 +148,28 @@ DriftwoodModel >> teleportCollectorsAwayFromWater [
 { #category : #accessing }
 DriftwoodModel >> theAres [
 
-	<getterFor: #DriftwoodAre>
+	<getterForEntityClass: #DriftwoodAre>
 	^ theAres
 ]
 
 { #category : #accessing }
 DriftwoodModel >> theCollectors [
 
-	<getterFor: #DriftwoodCollector>
+	<getterForEntityClass: #DriftwoodCollector>
 	^ theCollectors
 ]
 
 { #category : #accessing }
 DriftwoodModel >> theDriftwoods [
 
-	<getterFor: #DriftwoodDriftwood>
+	<getterForEntityClass: #DriftwoodDriftwood>
 	^ theDriftwoods
 ]
 
 { #category : #accessing }
 DriftwoodModel >> thePiles [
 
+	<getterForEntityClass: #DriftwoodPile>
 	^ thePiles
 ]
 

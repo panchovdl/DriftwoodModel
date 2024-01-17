@@ -10,3 +10,9 @@ Class {
 	],
 	#category : #'Driftwood-Model'
 }
+
+{ #category : #initialization }
+DriftwoodPile >> initialize [
+
+	super initialize.
+]
